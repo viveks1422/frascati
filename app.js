@@ -17,6 +17,7 @@ var auth = require('./routes/auth');
 
 var app = express();
 // -------------------------- database connection -----------------
+var port = process.env.PORT || 8000;
 var database = require('./config/database.js')
 // configuration ===============================================================
 mongoose.connect(database.url); // connect to our database
@@ -34,6 +35,11 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
+// required for passport
+app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(app.router);
@@ -51,19 +57,19 @@ passport.deserializeUser(function(obj, done) {
   console.log("deserializing " + obj);
   done(null, obj);
 });
-// passport authentication code
-passport.use(new FacebookStrategy({
-    clientID: "1504720869766777",
-    clientSecret: "e420703c6df278992927f74e9bb15151",
-    callbackURL: "http://localhost:3000/auth/facebook/callback"
-  },
-  function(accessToken, refreshToken, profile, done) {
-    // User.findOrCreate(..., function(err, user) {
-    if (!profile) { return done(err); }
-    done(null, profile);
+// // passport authentication code
+// passport.use(new FacebookStrategy({
+//     clientID: "1504720869766777",
+//     clientSecret: "e420703c6df278992927f74e9bb15151",
+//     callbackURL: "http://localhost:3000/auth/facebook/callback"
+//   },
+//   function(accessToken, refreshToken, profile, done) {
+//     // User.findOrCreate(..., function(err, user) {
+//     if (!profile) { return done(err); }
+//     done(null, profile);
 
-  }
-));
+//   }
+// ));
 // passport authentication code
 // app.get('/login',auth.login);
 // app.get('/signup',auth.signup);
@@ -105,6 +111,8 @@ app.use(function(err, req, res, next) {
         error: {}
     });
 });
-
+// launch ======================================================================
+app.listen(port);
+console.log('ready captain, on deck ' + port);
 
 module.exports = app;

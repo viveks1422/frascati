@@ -7,6 +7,10 @@ module.exports = function(app, passport) {
 		req.logout();
 		res.json({ redirect: '/logout' });
 	});
+	// profile
+	app.post('/profile', function(req, res) {
+		res.render('profile', { message: "success"});
+	});
 
 // =============================================================================
 // AUTHENTICATE (FIRST LOGIN) ==================================================
@@ -209,7 +213,7 @@ module.exports = function(app, passport) {
 
 	// show the home page (will also have our login links)
 	app.get('*', function(req, res) {
-		res.sendfile('./public/views/index.html');
+		res.render('profile');
 	});
 
 
