@@ -4,7 +4,9 @@ var http = require('http');
 var path = require('path');
 var favicon = require('static-favicon');
 var logger = require('morgan');
+var mongoose = require('mongoose');
 var cookieParser = require('cookie-parser');
+var session = require('express-session');
 var bodyParser = require('body-parser');
 var passport = require('passport')
   , FacebookStrategy = require('passport-facebook').Strategy;
@@ -14,7 +16,13 @@ var users = require('./routes/user');
 var auth = require('./routes/auth');
 
 var app = express();
+// -------------------------- database connection -----------------
+var database = require('./config/database.js')
+// configuration ===============================================================
+mongoose.connect(database.url); // connect to our database
 
+require('./config/passport')(passport); // pass passport for configuration
+// -------------------------- database connection -----------------
 // view engine setup
 // use ejs-locals for all ejs templates:
 app.engine('ejs', engine);
@@ -57,13 +65,15 @@ passport.use(new FacebookStrategy({
   }
 ));
 // passport authentication code
-app.get('/login',auth.login);
-app.get('/signup',auth.signup);
-app.get('/auth/facebook', passport.authenticate('facebook'));
+// app.get('/login',auth.login);
+// app.get('/signup',auth.signup);
+// app.get('/auth/facebook', passport.authenticate('facebook'));
 
-app.get('/auth/facebook/callback', 
-  passport.authenticate('facebook', { successRedirect: '/',
-                                      failureRedirect: '/login',title: 'Login' }));
+// app.get('/auth/facebook/callback', 
+//   passport.authenticate('facebook', { successRedirect: '/',
+//                                       failureRedirect: '/login',title: 'Login' }));
+// routes ======================================================================
+require('./config/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
 
 
 
