@@ -58,6 +58,7 @@ passport.use(new FacebookStrategy({
 ));
 // passport authentication code
 app.get('/login',auth.login);
+app.get('/signup',auth.signup);
 app.get('/auth/facebook', passport.authenticate('facebook'));
 
 app.get('/auth/facebook/callback', 
