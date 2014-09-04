@@ -1,14 +1,15 @@
 /* GET all methods for seed. */
 var asyn=require('async');
 var Plan=require('../models/plan');
+var Role=require('../models/role');
 // create default subscriptions plans----------------------------
 exports.plans = function(req, res){
-	planFind=Plan.find().exec(function(err,allPlans){
+	Plan.find().exec(function(err,allPlans){
 		if(err){
 			console.log(err);
 		}
 		else{
-			// if no entries found in plan table
+			// if no entries present in plan table
 			if(allPlans.length==0){
 				var plans = [
 				  	{
@@ -30,30 +31,63 @@ exports.plans = function(req, res){
 
 				  	}
 			  	];
-			  	var allplans=[];
 			  	asyn.each(plans,function(eachPlan,callback){
 			  		var planSave = new Plan(eachPlan);
 					planSave.save(function (err, plansObj) {
 						if (err) return console.error(err);
 					  	else{
-					  		res.json(plansObj);
-					  		allplans.push(plansObj);
 			  				callback();
 					  	};
 					});
 
 			  	},function(err){
-			  		res.json({message: "plans added successfully"});
+			  		res.json({message: "Plans added successfully"});
 			  	});
 
 			}
 			// if statement ends here
 			else{
-				res.json({message: "plans are already present"});
+				res.json({message: "Plans are already present"});
 			}
 		}
 	});
+};
+// create default user roles----------------------------
+exports.roles = function(req, res){
+	Role.find().exec(function(err,allRoles){
+		if(err){
+			console.log(err);
+		}
+		else{
+			// if no entries present in role table
+			if(allRoles.length==0){
+				var roles = [
+				  	{
+				  		name: "user"
+				  	},
+				  	{
+				  		name: "admin"
+				  	}
+			  	];
+			  	asyn.each(roles,function(eachRole,callback){
+			  		var roleSave = new Role(eachRole);
+					roleSave.save(function (err, roleObj) {
+						if (err) return console.error(err);
+					  	else{
 
-  	
-	
+			  				callback();
+					  	};
+					});
+
+			  	},function(err){
+			  		res.json({message: "Roles added successfully"});
+			  	});
+
+			}
+			else{
+				res.json({message: "Roles are already present"});
+			}
+		}
+		// conditional statements ends here
+	});
 };
