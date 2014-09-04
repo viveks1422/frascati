@@ -3,28 +3,44 @@ module.exports = function(app, passport) {
 // normal routes ===============================================================
 
 	// LOGOUT ==============================
-	app.post('/logout', function(req, res) {
-		req.logout();
-		res.json({ redirect: '/logout' });
+	app.get('/logout', function (req, res){
+	  	req.logout();
+		res.redirect('/');
 	});
 	// profile
 	app.post('/profile', function(req, res) {
-		res.render('profile', { message: "success"});
+		console.log(req);
+		res.render('profile', { user: req.user});
 	});
 
 // =============================================================================
 // AUTHENTICATE (FIRST LOGIN) ==================================================
 // =============================================================================
-
 	// locally --------------------------------
 		// LOGIN ===============================
-
+		app.get('/login', function(req, res){
+			if(req.user){
+				res.redirect('/profile');
+			}
+			else{
+				res.render('login');
+			}
+		});
+		// signup ===============================
+		app.get('/signup', function(req, res){
+			if(req.user){
+				res.redirect('/profile');
+			}
+			else{
+				res.render('signup');
+			}
+		});
 		// process the login form
 		app.post('/login', function(req, res, next) {
 		    if (!req.body.email || !req.body.password) {
 		        return res.json({ error: 'Email and Password required' });
 		    }
-		    passport.authenticate('local-login', function(err, user, info) {
+		    passport.authenticate('local-login',{ failureRedirect: '/login' }, function(err, user, info) {
 		        if (err) { 
 		            return res.json(err);
 		        }
@@ -35,13 +51,12 @@ module.exports = function(app, passport) {
 		            if (err) {
 		                return res.json(err);
 		            }
-		            return res.json({ redirect: '/profile' });
+		            res.redirect('/profile');
 		        });
 		    })(req, res);
 		});
 
 		// SIGNUP =================================
-
 		// process the signup form
 		app.post('/signup', function(req, res, next) {
 		    if (!req.body.email || !req.body.password) {
@@ -58,14 +73,12 @@ module.exports = function(app, passport) {
 		            if (err) {
 		                return res.json(err);
 		            }
-		            return res.json({ redirect: '/profile' });
+		            res.redirect('/profile');
 		        });
 		    })(req, res);
 		});
 
-
 	// facebook -------------------------------
-
 		// send to facebook to do the authentication
 		app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
 
@@ -77,7 +90,6 @@ module.exports = function(app, passport) {
 			}));
 
 	// twitter --------------------------------
-
 		// send to twitter to do the authentication
 		app.get('/auth/twitter', passport.authenticate('twitter', { scope : 'email' }));
 
@@ -88,9 +100,7 @@ module.exports = function(app, passport) {
 				failureRedirect : '/'
 			}));
 
-
 	// google ---------------------------------
-
 		// send to google to do the authentication
 		app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
 
