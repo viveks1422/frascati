@@ -8,13 +8,10 @@ var mongoose = require('mongoose');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var bodyParser = require('body-parser');
-var passport = require('passport')
-  , FacebookStrategy = require('passport-facebook').Strategy;
+var passport = require('passport');
 
-var routes = require('./routes');
-var users = require('./routes/user');
-var auth = require('./routes/auth');
-
+var routes = require('./controllers');
+var subscriptions = require('./controllers/subscription.js');
 var app = express();
 // -------------------------- database connection -----------------
 var port = process.env.PORT || 8000;
@@ -43,9 +40,9 @@ app.use(passport.session()); // persistent login sessions
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(app.router);
-
+// site routes ---------------------------------------------------------------------
 app.get('/', routes.index);
-app.get('/users', users.list);
+app.get('/subscription', subscriptions.index);
 // routes for sigin signup for authentication
 // Passport session setup.
 passport.serializeUser(function(user, done) {
@@ -58,40 +55,15 @@ passport.deserializeUser(function(obj, done) {
   done(null, obj);
 });
 // // passport authentication code
-// passport.use(new FacebookStrategy({
-//     clientID: "1504720869766777",
-//     clientSecret: "e420703c6df278992927f74e9bb15151",
-//     callbackURL: "http://localhost:3000/auth/facebook/callback"
-//   },
-//   function(accessToken, refreshToken, profile, done) {
-//     // User.findOrCreate(..., function(err, user) {
-//     if (!profile) { return done(err); }
-//     done(null, profile);
-
-//   }
-// ));
-// passport authentication code
-// app.get('/login',auth.login);
-// app.get('/signup',auth.signup);
-// app.get('/auth/facebook', passport.authenticate('facebook'));
-
-// app.get('/auth/facebook/callback', 
-//   passport.authenticate('facebook', { successRedirect: '/',
-//                                       failureRedirect: '/login',title: 'Login' }));
 // routes ======================================================================
 require('./config/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
-
-
-
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
 });
-
 /// error handlers
-
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {

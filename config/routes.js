@@ -1,3 +1,5 @@
+// including seed methods
+var seed = require('../controllers/seed.js');
 module.exports = function(app, passport) {
 
 // normal routes ===============================================================
@@ -7,10 +9,13 @@ module.exports = function(app, passport) {
 	  	req.logout();
 		res.redirect('/');
 	});
-	// profile
-	app.post('/profile', function(req, res) {
-		console.log(req);
-		res.render('profile', { user: req.user});
+	// profile page route
+	app.get('/profile', function(req, res) {
+		if(!req.user){
+			res.redirect('/');
+		}else{
+			res.render('profile', { user: req.user});
+		}
 	});
 
 // =============================================================================
@@ -162,7 +167,6 @@ module.exports = function(app, passport) {
 
 
 	// google ---------------------------------
-
 		// send to google to do the authentication
 		app.get('/connect/google', passport.authorize('google', { scope : ['profile', 'email'] }));
 
@@ -222,10 +226,12 @@ module.exports = function(app, passport) {
     });
 
 	// show the home page (will also have our login links)
-	app.get('*', function(req, res) {
-		res.render('profile', { user: req.user});
-	});
+	// app.get('*', function(req, res) {
+	// 	res.render('profile', { user: req.user});
+	// });
 
+	// routes to insert seed entries into the database ----------------------------------------------
+	app.get('/seed', seed.subscription);
 
 };
 // route middleware to ensure user is logged in - ajax get
