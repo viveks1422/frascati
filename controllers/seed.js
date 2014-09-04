@@ -1,40 +1,59 @@
 /* GET all methods for seed. */
 var asyn=require('async');
-var Subscription=require('../models/subscription');
-exports.subscription = function(req, res){
-  var subscription = [
-	  	{
-	  		name: "free",
-	  		type: "monthly",
-	  		price: 0
+var Plan=require('../models/plan');
+// create default subscriptions plans----------------------------
+exports.plans = function(req, res){
+	planFind=Plan.find().exec(function(err,allPlans){
+		if(err){
+			console.log(err);
+		}
+		else{
+			// if no entries found in plan table
+			if(allPlans.length==0){
+				var plans = [
+				  	{
+				  		name: "free",
+				  		type: "monthly",
+				  		price: 0
 
-	  	},
-	  	{
-	  		name: "basic",
-	  		type: "monthly",
-	  		price: 200
+				  	},
+				  	{
+				  		name: "basic",
+				  		type: "monthly",
+				  		price: 200
 
-	  	},
-	  	{
-	  		name: "commercial",
-	  		type: "monthly",
-	  		price: 500
+				  	},
+				  	{
+				  		name: "commercial",
+				  		type: "monthly",
+				  		price: 500
 
-	  	}
-  	];
+				  	}
+			  	];
+			  	var allplans=[];
+			  	asyn.each(plans,function(eachPlan,callback){
+			  		var planSave = new Plan(eachPlan);
+					planSave.save(function (err, plansObj) {
+						if (err) return console.error(err);
+					  	else{
+					  		res.json(plansObj);
+					  		allplans.push(plansObj);
+			  				callback();
+					  	};
+					});
 
-  	asyn.each(subscription,function(eachSubscription,callback){
-  		var subscriptionSave = new Subscription(eachSubscription);
-		subscriptionSave.save(function (err, subscriptions) {
-			if (err) return console.error(err);
-		  	else{
-		  		res.json(subscriptions);
-		  	};
-		  	callback();
-		});
+			  	},function(err){
+			  		res.json({message: "plans added successfully"});
+			  	});
 
-  	},function(err){
+			}
+			// if statement ends here
+			else{
+				res.json({message: "plans are already present"});
+			}
+		}
+	});
 
-  	});
+  	
 	
 };

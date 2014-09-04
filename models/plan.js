@@ -1,7 +1,7 @@
 // load the things we need
 var mongoose = require('mongoose');
 // define the schema for our subscription model
-var subscriptionSchema = mongoose.Schema({
+var planSchema = mongoose.Schema({
     name    : { 
         type: String, 
         required: true, 
@@ -25,7 +25,7 @@ var subscriptionSchema = mongoose.Schema({
     }
 });
 
-subscriptionSchema.pre('save', function(next){
+planSchema.pre('save', function(next){
   now = new Date();
   this.updated_at = now;
   if ( !this.created_at ) {
@@ -34,6 +34,6 @@ subscriptionSchema.pre('save', function(next){
   next();
 });
 // create the model for subscription and expose it to our app
-module.exports = mongoose.model('Subscription', subscriptionSchema);
+module.exports = mongoose.model('Plan', planSchema);
 
   

@@ -11,7 +11,8 @@ var bodyParser = require('body-parser');
 var passport = require('passport');
 
 var routes = require('./controllers');
-var subscriptions = require('./controllers/subscription.js');
+var plans = require('./controllers/plans.js');
+var seed = require('./controllers/seed.js');
 var app = express();
 // -------------------------- database connection -----------------
 var port = process.env.PORT || 8000;
@@ -42,7 +43,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(app.router);
 // site routes ---------------------------------------------------------------------
 app.get('/', routes.index);
-app.get('/subscription', subscriptions.index);
+app.get('/plans', plans.index);
+// routes to insert seed entries into the database ----------------------------------------------
+app.get('/seed', seed.plans);
 // routes for sigin signup for authentication
 // Passport session setup.
 passport.serializeUser(function(user, done) {

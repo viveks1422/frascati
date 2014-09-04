@@ -1,5 +1,4 @@
 // including seed methods
-var seed = require('../controllers/seed.js');
 module.exports = function(app, passport) {
 
 // normal routes ===============================================================
@@ -229,9 +228,6 @@ module.exports = function(app, passport) {
 	// app.get('*', function(req, res) {
 	// 	res.render('profile', { user: req.user});
 	// });
-
-	// routes to insert seed entries into the database ----------------------------------------------
-	app.get('/seed', seed.subscription);
 
 };
 // route middleware to ensure user is logged in - ajax get

@@ -1,6 +1,6 @@
 0 info it worked if it ends with ok
-1 verbose cli [ '/home/ajay/.nvm/v0.10.26/bin/node',
-1 verbose cli   '/home/ajay/.nvm/v0.10.26/bin/npm',
+1 verbose cli [ '/home/vivek/.nvm/v0.10.26/bin/node',
+1 verbose cli   '/home/vivek/.nvm/v0.10.26/bin/npm',
 1 verbose cli   'start' ]
 2 info using npm@1.4.3
 3 info using node@v0.10.26
@@ -20,8 +20,8 @@
 10 error     npm owner ls application-name
 10 error There is likely additional logging output above.
 11 error System Linux 3.2.0-68-generic-pae
-12 error command "/home/ajay/.nvm/v0.10.26/bin/node" "/home/ajay/.nvm/v0.10.26/bin/npm" "start"
-13 error cwd /home/ajay/projects/liveprojects/node/new_eaemaquinas_express/eaemaquinas_express
+12 error command "/home/vivek/.nvm/v0.10.26/bin/node" "/home/vivek/.nvm/v0.10.26/bin/npm" "start"
+13 error cwd /home/vivek/projects/liveprojects/eaemaquinas/eaemaquinasApp
 14 error node -v v0.10.26
 15 error npm -v 1.4.3
 16 error code ELIFECYCLE

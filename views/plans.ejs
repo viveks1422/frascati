@@ -11,12 +11,12 @@
       </tr>
     </thead>
     <tbody>
-    	<% subscriptions.forEach(function(subscription,index){%>
+    	<% plans.forEach(function(plan,index){%>
       <tr>
         <td><%=index+1%></td>
-        <td><%=: subscription.name | capitalize %></td>
-        <td><%=: subscription.type | capitalize %></td>
-        <td><%=: (subscription.price==0) ? "free" : subscription.price | capitalize %></td>
+        <td><%=: plan.name | capitalize %></td>
+        <td><%=: plan.type | capitalize %></td>
+        <td><%=: (plan.price==0) ? "free" : plan.price | capitalize %></td>
       </tr>
       <% }); %>
     </tbody>
