@@ -223,12 +223,11 @@ module.exports = function(app, passport) {
 
 	// show the home page (will also have our login links)
 	app.get('*', function(req, res) {
-		res.render('profile');
+		res.render('profile', { user: req.user});
 	});
 
 
 };
-
 // route middleware to ensure user is logged in - ajax get
 function isLoggedInAjax(req, res, next) {
     if (!req.isAuthenticated()) {
@@ -237,7 +236,6 @@ function isLoggedInAjax(req, res, next) {
         next();
     }
 }
-
 // route middleware to ensure user is logged in
 function isLoggedIn(req, res, next) {
 	if (req.isAuthenticated())
