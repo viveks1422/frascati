@@ -15,7 +15,7 @@ var plans = require('./controllers/plans.js');
 var seed = require('./controllers/seed.js');
 var app = express();
 // -------------------------- database connection -----------------
-var port = process.env.PORT || 80;
+var port = process.env.PORT || 8000;
 var database = require('./config/database.js')
 // configuration ===============================================================
 mongoose.connect(database.url); // connect to our database
