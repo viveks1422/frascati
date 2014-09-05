@@ -1,0 +1,11 @@
+== README
+
+The project is based on Express, MongoDB and EJS as template engine and Angular in some place.
+
+Please follow the step to run the project:
+
+1. Please install Node  Stable version = v0.10.26
+
+2. Please  do "npm install" to install application dependencies.
+
+3. run "npm start" to run the application 
