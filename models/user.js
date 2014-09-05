@@ -1,6 +1,7 @@
 // load the things we need
 var mongoose = require('mongoose');
 var bcrypt   = require('bcrypt-nodejs');
+var Role=require('../models/role');
 
 // define the schema for our user model
 var userSchema = mongoose.Schema({
@@ -27,7 +28,7 @@ var userSchema = mongoose.Schema({
         email        : String,
         name         : String
     },
-    _role : { type: String, ref: 'Role' }
+    role : { type: String, ref: 'Role' }
 
 });
 
@@ -40,6 +41,19 @@ userSchema.methods.generateHash = function(password) {
 userSchema.methods.validPassword = function(password) {
     return bcrypt.compareSync(password, this.local.password);
 };
-
+// callback to save use role into the user
+userSchema.pre('save', function(next){
+  // to find user role 
+  Role.find().where({name: "user"}).limit(1).exec(function(err,roles){
+    if(err){
+        console.log(err);
+    }
+    else{
+        this.role = roles.id;
+    }
+    next();
+  });
+  
+});
 // create the model for users and expose it to our app
 module.exports = mongoose.model('User', userSchema);
