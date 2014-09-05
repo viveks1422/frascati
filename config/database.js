@@ -1,5 +1,4 @@
 // config/database.js
 module.exports = {
-  url : 'mongodb://heroku:Viv_Ved2222@staff.mongohq.com:10073/eaemaquinas'
-
+  url : 'mongodb://127.0.0.1:27017/eaemaquinas'
 };
