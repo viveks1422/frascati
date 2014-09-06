@@ -1,34 +1,65 @@
 // load the things we need
 var mongoose = require('mongoose');
+var Schema=mongoose.Schema;
 var bcrypt   = require('bcrypt-nodejs');
 var Role=require('../models/role');
 
 // define the schema for our user model
 var userSchema = mongoose.Schema({
 
-    local            : {
-        email        : String,
-        password     : String,
+    local: {
+        email: { 
+            type: String 
+        },
+        password: { 
+            type: String 
+        }
     },
-    facebook         : {
-        id           : String,
-        token        : String,
-        email        : String,
-        name         : String
+    facebook: {
+        id: { 
+            type: String 
+        },
+        token        : { 
+            type: String 
+        },
+        email: { 
+            type: String 
+        },
+        name: { 
+            type: String 
+        }
     },
-    twitter          : {
-        id           : String,
-        token        : String,
-        displayName  : String,
-        username     : String
+    twitter: {
+        id:{ 
+            type: String 
+        },
+        token: { 
+            type: String 
+        },
+        displayName: { 
+            type: String 
+        },
+        username: { 
+            type: String 
+        }
     },
-    google           : {
-        id           : String,
-        token        : String,
-        email        : String,
-        name         : String
+    google: {
+        id: { 
+            type: String 
+        },
+        token: { 
+            type: String 
+        },
+        email: { 
+            type: String 
+        },
+        name: { 
+            type: String 
+        }
     },
-    role : { type: String, ref: 'Role' }
+    role:{
+        type: String
+    }      
 
 });
 
@@ -43,17 +74,9 @@ userSchema.methods.validPassword = function(password) {
 };
 // callback to save use role into the user
 userSchema.pre('save', function(next){
-  // to find user role 
-  Role.find().where({name: "user"}).limit(1).exec(function(err,roles){
-    if(err){
-        console.log(err);
-    }
-    else{
-        this.role = roles.id;
-    }
+    // to find user role 
+    this.role="user";
     next();
-  });
-  
 });
 // create the model for users and expose it to our app
 module.exports = mongoose.model('User', userSchema);
