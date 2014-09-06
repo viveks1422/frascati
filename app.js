@@ -9,13 +9,13 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var bodyParser = require('body-parser');
 var passport = require('passport');
+var flash = require('connect-flash');
 
 var routes = require('./controllers');
 var plans = require('./controllers/plans.js');
 var seed = require('./controllers/seed.js');
 var app = express();
 // -------------------------- database connection -----------------
-var port = process.env.PORT || 8000;
 var database = require('./config/database.js')
 // configuration ===============================================================
 mongoose.connect(database.url); // connect to our database
@@ -37,10 +37,11 @@ app.use(cookieParser());
 app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
+app.use(flash());
 
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(app.router);
+// app.use(app.router);
 // site routes ---------------------------------------------------------------------
 app.get('/', routes.index);
 app.get('/plans', plans.index);
@@ -88,6 +89,4 @@ app.use(function(err, req, res, next) {
     });
 });
 // launch ======================================================================
-app.listen(port);
-console.log('ready captain, on deck ' + port);
 module.exports = app;
