@@ -8,4 +8,8 @@ Please follow the step to run the project:
 
 2. Please  do "npm install" to install application dependencies.
 
-3. run "npm start" to run the application 
+3. run "npm start" to run the application.
+
+4. use url "/seed_roles" to insert defaults roles into the database.
+
+5. use url "/seed_plans" to insert defaults plans into the database.
