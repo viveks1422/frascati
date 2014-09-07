@@ -16,6 +16,27 @@
 
   </head>
   <body>
+    <!-- flash message code -->
+    <%if(typeof(messages)!="undefined") {%>
+      <%if (messages.error) { %>
+        <div class="alert alert-danger">
+          <div><%=messages.error%></div>
+        </div>
+      <% } %>
+      <!-- message info -->
+      <%if (messages.info) { %>
+        <div class="alert alert-info">
+          <div><%=messages.info%></div>
+        </div>
+      <% } %>
+      <!-- message success -->
+      <%if (messages.success) { %>
+        <div class="alert alert-success">
+          <div><%=messages.success%></div>
+        </div>
+      <% } %>
+    <% } %>
+    <!-- flash message code -->
     <%- body %>
   </body>
   <script src="components/jquery/jquery.js" type="text/javascript"/>

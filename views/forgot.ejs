@@ -1,0 +1,16 @@
+<% layout('layout') %>
+<div class="col-sm-6 col-sm-offset-3">
+  <h1><span class="fa fa-sign-in"></span> Forgot password</h1>
+  <div growl></div>
+  <!-- LOGIN FORM -->
+  <form method="POST" action="/forgot">
+    <div class="form-group">
+      <label>Please enter your email</label>
+      <input type="email" required class="form-control" name="email">
+    </div>
+    <button type="submit" class="btn btn-warning btn-lg">Reset Password</button>
+  </form>
+  <hr>
+  <p>Need an account? <a href="/signup">Signup</a></p>
+  <p>Or go <a href="/">home</a>.</p>
+</div>
