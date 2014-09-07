@@ -101,6 +101,23 @@ module.exports = function(app, passport) {
 			            if (err) {
 			                return res.json(err);
 			            }
+			            // setup e-mail data with unicode symbols
+			            // registration email -------------------------------------
+					    var mailOptions = {
+					        from: 'Fabio ✔ <admin@eaemaquinas.com>', // sender address
+					        to: user.local.email, // list of receivers
+					        subject: 'Eaemaquinas :: Registation sucessfull ✔', // Subject line
+					        text: 'Hello Customer', // plaintext body
+					        html: '<b>Registration successful ✔</b>' // html body
+					    };
+					    // send mail with defined transport object
+					    transporter.sendMail(mailOptions, function(error, info){
+					        if(error){
+					            console.log(error);
+					        }else{
+					            console.log('Message sent: ' + info.response);
+					        }
+					    });
 			            req.flash('success', 'Signup successfully');
 			            res.redirect('/profile');
 			        });
@@ -142,7 +159,7 @@ module.exports = function(app, passport) {
 	    function(token, user, done) {
 	      var mailOptions = {
 	        to: user.local.email,
-	        from: 'passwordreset@demo.com',
+	        from: 'Fabio ✔ <admin@eaemaquinas.com>',
 	        subject: 'Node.js Password Reset',
 	        text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
 	          'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
@@ -198,8 +215,8 @@ module.exports = function(app, passport) {
 	    },
 	    function(user, done) {
 	      var mailOptions = {
-	        to: user.email,
-	        from: 'passwordreset@demo.com',
+	        to: user.local.email,
+	        from: 'Fabio ✔ <admin@eaemaquinas.com>',
 	        subject: 'Your password has been changed',
 	        text: 'Hello,\n\n' +
 	          'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
@@ -210,7 +227,7 @@ module.exports = function(app, passport) {
 	      });
 	    }
 	  ], function(err) {
-	    res.redirect('/');
+	    res.redirect('/profile');
 	  });
 	});
 	// facebook -------------------------------

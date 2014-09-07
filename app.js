@@ -25,8 +25,8 @@ require('./config/passport')(passport); // pass passport for configuration
 // view engine setup
 // use ejs-locals for all ejs templates:
 app.engine('ejs', engine);
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+app.set('views',__dirname + '/views');
+app.set('view engine', 'ejs'); // so you can render('index')
 
 app.use(favicon());
 app.use(logger('dev'));
@@ -39,7 +39,6 @@ app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash());
 
-app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 // app.use(app.router);
 // site routes ---------------------------------------------------------------------
