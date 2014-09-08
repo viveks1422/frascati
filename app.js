@@ -24,7 +24,7 @@ require('./config/passport')(passport); // pass passport for configuration
 // -------------------------- database connection -----------------
 // view engine setup
 // use ejs-locals for all ejs templates:
-app.engine('ejs', engine);
+app.engine('ejs', engine);  
 app.set('views',__dirname + '/views');
 app.set('view engine', 'ejs'); // so you can render('index')
 
