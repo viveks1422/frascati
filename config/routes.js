@@ -88,43 +88,50 @@ module.exports = function(app, passport) {
 		    if (!req.body.email || !req.body.password) {
 		        return res.json({ error: 'Email and Password required' });
 		    }
-		    passport.authenticate('local-signup', function(err, user, info) {
-		        if (err) { 
-		            return res.json(err);
-		        }
-		        if (user.error) {
-		            req.flash('error',user.error);
-			        res.redirect('/signup');
-		        }
-		        else{
-		        	req.logIn(user, function(err) {
-			            if (err) {
-			                return res.json(err);
-			            }
-			            // setup e-mail data with unicode symbols
-			            // registration email -------------------------------------
-					    var mailOptions = {
-					        from: 'Fabio ✔ <admin@eaemaquinas.com>', // sender address
-					        to: user.local.email, // list of receivers
-					        subject: 'Eaemaquinas :: Registation sucessfull ✔', // Subject line
-					        text: 'Hello Customer', // plaintext body
-					        html: '<b>Registration successful ✔</b>' // html body
-					    };
-					    // send mail with defined transport object
-					    transporter.sendMail(mailOptions, function(error, info){
-					        if(error){
-					            console.log(error);
-					        }else{
-					            console.log('Message sent: ' + info.response);
-					        }
-					    });
-			            req.flash('success', 'Signup successfully');
-			            res.redirect('/profile');
-			        });
+		    // password doen't match
+		    if (req.body.password !==req.body.confirmpassword) {
+		        req.flash('error', 'Password does not matching');
+		        res.redirect('/signup');
+		    }else{
+		    	passport.authenticate('local-signup', function(err, user, info) {
+			        if (err) { 
+			            return res.json(err);
+			        }
+			        if (user.error) {
+			            req.flash('error',user.error);
+				        res.redirect('/signup');
+			        }
+			        else{
+			        	req.logIn(user, function(err) {
+				            if (err) {
+				                return res.json(err);
+				            }
+				            // setup e-mail data with unicode symbols
+				            // registration email -------------------------------------
+						    var mailOptions = {
+						        from: 'Fabio ✔ <admin@eaemaquinas.com>', // sender address
+						        to: user.local.email, // list of receivers
+						        subject: 'Eaemaquinas :: Registation sucessfull ✔', // Subject line
+						        text: 'Hello Customer', // plaintext body
+						        html: '<b>Registration successful ✔</b>' // html body
+						    };
+						    // send mail with defined transport object
+						    transporter.sendMail(mailOptions, function(error, info){
+						        if(error){
+						            console.log(error);
+						        }else{
+						            console.log('Message sent: ' + info.response);
+						        }
+						    });
+				            req.flash('success', 'Signup successfully');
+				            res.redirect('/profile');
+				        });
 
-		        }
-		        
-		    })(req, res);
+			        }
+			        
+			    })(req, res);
+		    }
+		    
 		});
 	// reset password ---------------------------------------
 	app.get('/forgot', function(req, res) {
