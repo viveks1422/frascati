@@ -13,6 +13,7 @@ var flash = require('express-flash');
 
 var routes = require('./controllers');
 var plans = require('./controllers/plans.js');
+var users = require('./controllers/users.js');
 var seed = require('./controllers/seed.js');
 var app = express();
 // -------------------------- database connection -----------------
@@ -47,6 +48,8 @@ app.get('/plans', plans.index);
 // routes to insert seed entries into the database ----------------------------------------------
 app.get('/seed_plans', seed.plans);
 app.get('/seed_roles', seed.roles);
+// user routes -----------------------------
+app.get('/user/:id/edit',users.edit);
 // routes for sigin signup for authentication
 // Passport session setup.
 passport.serializeUser(function(user, done) {

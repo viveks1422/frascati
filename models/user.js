@@ -59,6 +59,16 @@ var userSchema = mongoose.Schema({
             type: String 
         }
     },
+    username:{
+        type:String,
+        required: true 
+    },
+    phone:{
+        type:Number 
+    },
+    address:{
+        type:String 
+    },
     resetPasswordToken:{
         type: String
     },

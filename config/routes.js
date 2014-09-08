@@ -94,6 +94,7 @@ module.exports = function(app, passport) {
 		        res.redirect('/signup');
 		    }else{
 		    	passport.authenticate('local-signup', function(err, user, info) {
+			        
 			        if (err) { 
 			            return res.json(err);
 			        }

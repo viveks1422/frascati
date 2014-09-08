@@ -1,11 +1,25 @@
 <% layout('layout') %>
+<%=user%>
 <div class="page-header text-center">
 	<h1><span class="fa fa-anchor"></span> Profile Page</h1>
 	<a logout href="/logout" class="btn btn-default btn-sm">Logout</a>
+	<a logout href="/user/<%=user._id%>/edit" class="btn btn-default btn-sm">Edit</a>
 	<a logout href="/plans" class="btn btn-default btn-sm">Upgrade</a>
 </div>
 </div>
-
+<!--personal information-->
+<div class="row">
+	<div class="col-sm-6">
+		<div class="well">
+			<p>
+				<strong>Role:</strong><%=user.role%><br>
+				<strong>Email:</strong><%=user.local.email%><br>
+				<strong>Phone:</strong><%=user.phone%><br>
+				<strong>Address:</strong><%=user.address%>
+			</p>
+		</div>
+	</div>
+</div>
 <div class="row">
 	<!-- LOCAL INFORMATION -->
 	<div class="col-sm-6">
