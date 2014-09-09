@@ -50,8 +50,10 @@ app.get('/seed_plans', seed.plans);
 app.get('/seed_roles', seed.roles);
 app.get('/seed_admin', seed.admin);
 // user routes -----------------------------
+app.get('/users',users.index);
 app.get('/user/:id/edit',users.edit);
 app.post('/user/:id/update',users.update);
+app.get('/user/:id/delete',users.delete);
 // routes for sigin signup for authentication
 // Passport session setup.
 passport.serializeUser(function(user, done) {

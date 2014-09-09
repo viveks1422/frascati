@@ -1,9 +1,12 @@
 <% layout('layout') %>
 <div class="page-header text-center">
 	<h1><span class="fa fa-anchor"></span> Profile Page</h1>
-	<a logout href="/logout" class="btn btn-default btn-sm">Logout</a>
 	<a logout href="/user/<%=user._id%>/edit" class="btn btn-default btn-sm">Edit</a>
+	<%if(user.role=="admin"){%>
+		<a logout href="/users" class="btn btn-default btn-sm">User list</a>
+	<%}%>
 	<a logout href="/plans" class="btn btn-default btn-sm">Upgrade</a>
+	<a logout href="/logout" class="btn btn-default btn-sm">Logout</a>
 </div>
 </div>
 <!--personal information-->
@@ -31,7 +34,7 @@
 					<p>
 						<strong>id</strong>: <%=user.local.id%><br>
 						<strong>email</strong>:<%=user.local.email%><br>
-						<strong>name</strong>:<%=user.local.password%>
+						<strong>password</strong>:<%=user.local.password%>
 					</p>
 					<a redir href="/unlink/local" class="btn btn-default">Unlink</a>
 				</container>
