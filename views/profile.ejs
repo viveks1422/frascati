@@ -1,5 +1,4 @@
 <% layout('layout') %>
-<%=user%>
 <div class="page-header text-center">
 	<h1><span class="fa fa-anchor"></span> Profile Page</h1>
 	<a logout href="/logout" class="btn btn-default btn-sm">Logout</a>
@@ -13,6 +12,7 @@
 		<div class="well">
 			<p>
 				<strong>Role:</strong><%=user.role%><br>
+				<strong>Username:</strong><%=user.username%><br>
 				<strong>Email:</strong><%=user.local.email%><br>
 				<strong>Phone:</strong><%=user.phone%><br>
 				<strong>Address:</strong><%=user.address%>

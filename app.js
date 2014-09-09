@@ -48,8 +48,10 @@ app.get('/plans', plans.index);
 // routes to insert seed entries into the database ----------------------------------------------
 app.get('/seed_plans', seed.plans);
 app.get('/seed_roles', seed.roles);
+app.get('/seed_admin', seed.admin);
 // user routes -----------------------------
 app.get('/user/:id/edit',users.edit);
+app.post('/user/:id/update',users.update);
 // routes for sigin signup for authentication
 // Passport session setup.
 passport.serializeUser(function(user, done) {

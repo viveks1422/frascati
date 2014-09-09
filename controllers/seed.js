@@ -2,6 +2,8 @@
 var asyn=require('async');
 var Plan=require('../models/plan');
 var Role=require('../models/role');
+var User=require('../models/user');
+var bcrypt   = require('bcrypt-nodejs');
 // create default subscriptions plans----------------------------
 exports.plans = function(req, res){
 	Plan.find().exec(function(err,allPlans){
@@ -86,6 +88,45 @@ exports.roles = function(req, res){
 			}
 			else{
 				res.json({message: "Roles are already present"});
+			}
+		}
+		// conditional statements ends here
+	});
+};
+// create default admin----------------------------
+exports.admin = function(req, res){
+	User.findOne({role:'admin'}).exec(function(err,adminUser){
+		if(err){
+			console.log(err);
+		}
+		else{
+			// if no entries present in role table
+			if(adminUser==null){
+				var adminPass=bcrypt.hashSync('admin123', bcrypt.genSaltSync(8), null);
+				var admin = {
+		  		local: {
+		  			email:'fabio@mailinator.com',
+		  			password:adminPass
+		  		},
+		  		username: "fabio",
+		  		role: "admin",
+		  		phone: "",
+		  		address: ""	
+				}
+				// saving admin role into the database
+				var adminSave = new User(admin);
+				adminSave.save(function (err, adminObj) {
+					if (err) return console.error(err);
+				  	else{
+
+		  				console.log("Admin added successfully");
+		  				res.json({message: "Admin added successfully"});
+				  	};
+				});
+
+			}
+			else{
+				res.json({message: "Admin is already present"});
 			}
 		}
 		// conditional statements ends here

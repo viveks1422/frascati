@@ -98,6 +98,8 @@ module.exports = function(passport) {
                         newUser.local.password = newUser.generateHash(password);
                         newUser.phone=req.body.phone;
                         newUser.address=req.body.address;
+                        newUser.role='user';
+                        newUser.username=req.body.username;
 
                         newUser.save(function(err) {
                             if (err)
