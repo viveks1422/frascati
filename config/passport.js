@@ -98,8 +98,8 @@ module.exports = function(passport) {
                         newUser.local.password = newUser.generateHash(password);
                         newUser.phone=req.body.phone;
                         newUser.address=req.body.address;
-                        newUser.role='user';
-                        newUser.username=req.body.username;
+                        newUser.role=req.body.role;
+                        newUser.name=req.body.name;
 
                         newUser.save(function(err) {
                             if (err)
@@ -160,6 +160,10 @@ module.exports = function(passport) {
                             user.facebook.token = token;
                             user.facebook.name  = profile.name.givenName + ' ' + profile.name.familyName;
                             user.facebook.email = (profile.emails[0].value || '').toLowerCase();
+                            user.name=profile.name.givenName;
+                            user.contact="";
+                            user.address="";
+
 
                             user.save(function(err) {
                                 if (err)
@@ -235,6 +239,9 @@ module.exports = function(passport) {
                             user.twitter.token       = token;
                             user.twitter.username    = profile.username;
                             user.twitter.displayName = profile.displayName;
+                            user.name=profile.displayName;
+                            user.contact="";
+                            user.address="";
 
                             user.save(function(err) {
                                 if (err)
@@ -311,7 +318,9 @@ module.exports = function(passport) {
                             user.google.token = token;
                             user.google.name  = profile.displayName;
                             user.google.email = (profile.emails[0].value || '').toLowerCase(); // pull the first email
-
+                            user.name=profile.displayName;
+                            user.contact="";
+                            user.address="";
                             user.save(function(err) {
                                 if (err)
                                     throw err;

@@ -25,7 +25,7 @@ exports.update = function(req, res){
 		.exec(function(err,userObj){
 			if(err){
 				console.log(err);
-				req.flash('erro',err);
+				req.flash('error',err);
 				res.redirect('/profile');
 			}
 			else{

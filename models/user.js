@@ -59,9 +59,8 @@ var userSchema = mongoose.Schema({
             type: String 
         }
     },
-    username:{
-        type:String,
-        required: true 
+    name:{
+        type:String
     },
     phone:{
         type:Number 
@@ -91,10 +90,12 @@ userSchema.methods.validPassword = function(password) {
     return bcrypt.compareSync(password, this.local.password);
 };
 // callback to save use role into the user
-// userSchema.pre('save', function(next){
-//     // to find user role 
-//     this.role="user";
-//     next();
-// });
+userSchema.pre('save', function(next){
+    // to find user role
+    if(typeof(this.role)=="undefined" || typeof(this.role)==""){
+        this.role="user";
+    }
+    next();
+});
 // create the model for users and expose it to our app
 module.exports = mongoose.model('User', userSchema);
