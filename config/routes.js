@@ -28,7 +28,20 @@ module.exports = function(app, passport) {
 		if(!req.user){
 			res.redirect('/');
 		}else{
-			res.render('profile', { user: req.user});
+			// if user is admin
+			if(req.user.role=="admin"){
+				res.redirect('/admin');
+			}else{
+				res.render('profile', { user: req.user});
+			}	
+		}
+	});
+	// admin redirect
+	app.get('/admin', function(req, res) {
+		if(!req.user && req.user.role!="admin"){
+			res.redirect('/');
+		}else{
+			res.render('admin/index', { user: req.user});
 		}
 	});
 

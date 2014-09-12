@@ -1,0 +1,26 @@
+<% layout('/layout') %>
+<div class="page-header text-center">
+	<h1><span class="fa fa-anchor"></span> Administrator panel</h1>
+	<a logout href="/user/<%=user._id%>/edit" class="btn btn-default btn-sm">Edit profile</a>
+	<%if(user.role=="admin"){%>
+		<a logout href="/admin/users" class="btn btn-default btn-sm">Users</a>
+	<%}%>
+	<!-- <a logout href="/admin/roles" class="btn btn-default btn-sm">Manage roles</a> -->
+	<a logout href="/logout" class="btn btn-default btn-sm">Logout</a>
+</div>
+</div>
+<!--personal information-->
+<div class="row">
+	<div class="">
+		<div class="well">
+			<p>
+				<strong>Role:</strong><%=user.role%><br>
+				<strong>Username:</strong><%=user.name%><br>
+				<strong>Email:</strong><%=user.local.email%><br>
+				<strong>Phone:</strong><%=user.phone%><br>
+				<strong>Address:</strong><%=user.address%>
+			</p>
+		</div>
+	</div>
+</div>
+

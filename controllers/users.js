@@ -1,5 +1,48 @@
 /* GET home page. */
 var User=require('../models/user');
+var bcrypt   = require('bcrypt-nodejs');
+// user new method
+exports.new = function(req, res){
+	if((req.user) && (req.user.role=="admin")){
+		res.render('users/new');
+	}
+	else{
+		res.redirect('/login');
+	}
+  
+};
+// user create method
+exports.create = function(req, res){
+	if((req.user) && (req.user.role=="admin"|| req.user._id)){
+		// new user object to create user
+		var newUser = {
+			local:{
+				email: req.body.email,
+				password: bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(8), null)
+			},
+			role: req.body.role,
+			name: req.body.name || "",
+			phone: req.body.phone || "",
+			address: req.body.address || ""
+
+		}
+		var userNew = new User(newUser);
+		userNew.save(function(err,userObj){	
+			if(err){
+				console.log(err);
+				req.flash('error',err);
+			}
+			else{
+				req.flash('success','User created successfully');
+			}
+			res.redirect('/users');
+		});
+	}
+	else{
+		res.redirect('/login');
+	}
+  
+};
 // user edit method
 exports.edit = function(req, res){
 	if((req.user) && (req.user.role=="admin"|| req.user._id == req.params.id)){
